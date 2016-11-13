@@ -1,0 +1,48 @@
+# Lecture 8 - RStudio, Rmarkdown, GitHub - REPRODUCIBLE RESEARCH
+
+Things to cover:
+1) Creating documents using Rmarkdown
+a) Introduction to markdown
+  - https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf
+  - http://rmarkdown.rstudio.com
+b) Formatting text
+- Bold and italics
+- Numbers and bullets
+- Sections and titles
+
+2) Rmarkdown features
+a) Including code in documents
+- Inline code ```
+- Blocks of code `
+- Using calculated figures `r
+b) Creating presentations
+c) Setting options and plots
+- Starting options
+- Options throughout the document
+
+3) More advanced Rmarkdown
+a) Adding in maths using latex
+ - https://wch.github.io/latexsheet/latexsheet-a4.pdf
+ - Header files
+b) Adding in interactive visualisations
+
+4) Creating Package vignettes
+ - http://r-pkgs.had.co.nz/vignettes.html
+ - see e.g. https://cran.r-project.org/web/packages/simmr/vignettes/simmr.html
+
+5) GitHub and Rstudio
+a) Using Git and GitHub
+- https://www.codecademy.com/learn/learn-git
+- http://www.datasurg.net/2015/07/13/rstudio-and-github/
+- http://git-scm.com/downloads - download git
+b) Create a GitHub account
+c) Download the desktop client and log in
+d) Create a new repository online
+e) Clone it
+f) Work in Rstudio, pull, work, commit, repeat, push
+
+Homework for this week:
+
+1) Write R code for your package
+2) Write a vignette to go with it
+

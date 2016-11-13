@@ -1,0 +1,191 @@
+\documentclass[11pt,]{article}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in]{geometry}
+\newcommand*{\authorfont}{\fontfamily{phv}\selectfont}
+\usepackage[]{mathpazo}
+
+
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+
+
+
+\usepackage{abstract}
+\renewcommand{\abstractname}{}    % clear the title
+\renewcommand{\absnamepos}{empty} % originally center
+
+\renewenvironment{abstract}
+ {{%
+    \setlength{\leftmargin}{0mm}
+    \setlength{\rightmargin}{\leftmargin}%
+  }%
+  \relax}
+ {\endlist}
+
+\makeatletter
+\def\@maketitle{%
+  \newpage
+%  \null
+%  \vskip 2em%
+%  \begin{center}%
+  \let \footnote \thanks
+    {\fontsize{18}{20}\selectfont\raggedright  \setlength{\parindent}{0pt} \@title \par}%
+}
+%\fi
+\makeatother
+
+
+
+
+\setcounter{secnumdepth}{0}
+
+
+
+\title{R Package : \emph{geegeer}  }
+
+
+
+\author{\Large Ian Towey\vspace{0.05in} \newline\normalsize\emph{STAT40830 - Advanced R (week 6 assignment)}  }
+
+
+\date{}
+
+\usepackage{titlesec}
+
+\titleformat*{\section}{\normalsize\bfseries}
+\titleformat*{\subsection}{\normalsize\itshape}
+\titleformat*{\subsubsection}{\normalsize\itshape}
+\titleformat*{\paragraph}{\normalsize\itshape}
+\titleformat*{\subparagraph}{\normalsize\itshape}
+
+
+\usepackage{natbib}
+\bibliographystyle{apsr}
+
+
+
+\newtheorem{hypothesis}{Hypothesis}
+\usepackage{setspace}
+
+\makeatletter
+\@ifpackageloaded{hyperref}{}{%
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+}
+\@ifpackageloaded{color}{
+    \PassOptionsToPackage{usenames,dvipsnames}{color}
+}{%
+    \usepackage[usenames,dvipsnames]{color}
+}
+\makeatother
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={Ian Towey (STAT40830 - Advanced R (week 6 assignment))},
+             pdfkeywords = {geegeer, horse racing},  
+            pdftitle={R Package : \emph{geegeer}},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+
+
+\begin{document}
+	
+% \pagenumbering{arabic}% resets `page` counter to 1 
+%
+% \maketitle
+
+{% \usefont{T1}{pnc}{m}{n}
+\setlength{\parindent}{0pt}
+\thispagestyle{plain}
+{\fontsize{18}{20}\selectfont\raggedright 
+\maketitle  % title \par  
+
+}
+
+{
+   \vskip 13.5pt\relax \normalsize\fontsize{11}{12} 
+\textbf{\authorfont Ian Towey} \hskip 15pt \emph{\small STAT40830 - Advanced R (week 6 assignment)}   
+
+}
+
+}
+
+
+
+
+
+
+
+\begin{abstract}
+
+    \hbox{\vrule height .2pt width 39.14pc}
+
+    \vskip 8.5pt % \small 
+
+\noindent This document provides an introduction to R package \texttt{geegeer}.
+\texttt{geegeer} contains a set of predictve model for horse racing. The
+main functions of the \texttt{geegeer} API are presented below. The
+models in package \texttt{geegeer} are based on the analysis available
+\href{http://www.ms.unimelb.edu.au/documents/thesis/AlexThesis.pdf}{here}
+
+
+\vskip 8.5pt \noindent \emph{Keywords}: geegeer, horse racing \par
+
+    \hbox{\vrule height .2pt width 39.14pc}
+
+
+
+\end{abstract}
+
+
+\vskip 6.5pt
+
+\noindent  \section{Introduction}\label{introduction}
+
+\texttt{geegeer} is a \texttt{R} package that implements various models
+to predict the probability that a given horse in a given race will win.
+The package scrapes racecard/result information off
+\href{http://www.sportinglife.com/racing}{sporting.com}.
+
+\section{API}\label{api}
+
+The public funtions in the package are:
+
+\begin{itemize}
+\item
+  listRaces
+\item
+  listHorses
+\item
+  predictProbabilities
+\item
+  compareModelVSp
+\end{itemize}
+
+\section{listRaces - track date}\label{listraces---track-date}
+
+\section{listHorses - raceId}\label{listhorses---raceid}
+
+\section{predictRaceProbabilities - returns horse name / decimal
+odds}\label{predictraceprobabilities---returns-horse-name-decimal-odds}
+
+\section{compareModelVSp - compares the predicted model probabilities v
+the offical sp for that a
+runner}\label{comparemodelvsp---compares-the-predicted-model-probabilities-v-the-offical-sp-for-that-a-runner}
+
+\section{Remarks}\label{remarks}
+
+The package can be used to compare the probabilities from the various
+statistical models versus the offical SP and
+
+\newpage
+\singlespacing 
+\end{document}

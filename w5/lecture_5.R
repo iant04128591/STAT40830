@@ -25,6 +25,7 @@ library(dplyr)
 # You can use dplyr with magrittr for really beautiful, powerful code
 
 # Let's use the flights data for a simple example
+install.packages('nycflights13') # Install if necessary
 library(nycflights13) # Install if necessary
 str(flights) # It's a tbl_df which means that it's a special kind of dplyr data frame
 
@@ -36,7 +37,7 @@ flights
 
 # You can look at a tibble by either printing it like above or with
 glimpse(flights)
-
+flights %>% glimpse
 # Tibbles are nicer for printing and also for warning
 mtcars$something_else # NULL
 flights$something_else # Warning message!
@@ -53,7 +54,8 @@ flights %>% filter(month == 1, day == 1, carrier == 'B6')
 # Now go back and compare with horrifically ugly R code
 flights[flights$month == 1 & flights$day == 1 & flights$carrier == 'B6', ]
 
-# You might think: why am I not using subset? Well filter is neater because it takes as many arguments as you like and joins them together with &
+# You might think: why am I not using subset? Well filter is neater because it takes as many arguments as you like and 
+# joins them together with &
 
 # You can do the same thing as subset though by combining boolean operators
 flights %>% filter(month == 1 & day == 1 & carrier == 'B6')
@@ -86,8 +88,14 @@ flights %>% arrange(desc(sched_dep_time))
 
 ## EXERCISE 1
 # By default only the first few columns and rows of a tibble are printed. There is an options command to show all of the columns. What is it? (Hint: you'll need to do some Googling to find this)
+flights
+options(tibble.width = Inf)
+
+
 
 # Write a magrittr command that selects only January flights, then sorts the flights data by origin (ascending) and distance (descending), and finally glimpses the results
+flights %>% filter(month == 1) %>% arrange(origin, desc(distance)) %>% glimpse
+flights %>% filter(month == 1) %$% unique(month) #check filter
 
 # select, distinct and mutate ---------------------------------------------
 
@@ -136,18 +144,13 @@ system.time(replicate(1e2, ans <- unique(flights[,c('origin','carrier')])))
 # Now distinct seems to be faster
 
 # Add new columns with mutate
-flights %>% mutate(gain = arr_delay - dep_delay) %>%
-  select(arr_delay, dep_delay, gain)
+flights %>% mutate(gain = arr_delay - dep_delay) %>% select(arr_delay, dep_delay, gain)
 
 # Mutate will let you create multiple new columns this way
-flights %>% mutate(gain = arr_delay - dep_delay,
-                   speed = distance / air_time * 60) %>%
-  select(speed, gain)
+flights %>% mutate(gain = arr_delay - dep_delay, speed = distance / air_time * 60) %>% select(speed, gain)
 
 # One nice thing about mutate is that you can refer to already created variables when creating new ones
-flights %>% mutate(gain = arr_delay - dep_delay,
-                   gain_per_hour = gain / (air_time / 60)) %>%
-  select(gain_per_hour, gain)
+flights %>% mutate(gain = arr_delay - dep_delay, gain_per_hour = gain / (air_time / 60)) %>% select(gain_per_hour, gain)
 
 # You can get round using the select command above by using transmute instead
 flights %>% transmute(gain = arr_delay - dep_delay,
@@ -157,8 +160,11 @@ flights %>% transmute(gain = arr_delay - dep_delay,
 
 # Use suitable commands to determine the number of distinct values of:
 # destinations
+flights %>% distinct(dest) %>% nrow
 # destination/origin combinations
+flights %>% distinct(dest,origin) %>% nrow
 # destination/origin/carrier combinations
+flights %>% distinct(dest,origin,carrier) %>% nrow
 # Input your answers
 
 # select, rename, distinct, mutate, transmute
@@ -166,7 +172,10 @@ flights %>% transmute(gain = arr_delay - dep_delay,
 # speed = distance / (air time / 60)
 # as above and then outputs the correlation between speed and arr_delay
 # Hint: use the extra argument use = 'complete.obs' in your cor command
-
+flights %>% filter(origin == 'JFK') %>% transmute(speed = distance / (air_time / 60), arr_delay) %$% cor(speed, arr_delay, use = 'complete.obs')
+flights %>% filter(origin == "JFK") %>% mutate(speed = distance / (air_time / 60)) %>% transmute(cor(speed, arr_delay, use = "complete.obs")) %>% distinct
+flights %>% filter(origin == "JFK") %>% mutate(speed = distance / (air_time / 60)) %$% cor(speed, arr_delay, use = "complete.obs")
+?magrittr
 # summarise, sample and group_by ------------------------------------------
 
 # summarise takes a set of values and puts it down to a single value

@@ -1,0 +1,34 @@
+---
+title: "A title"
+author: "Andrew C Parnell"
+output: 
+  pdf_document: 
+    number_sections: true
+    includes:
+      in_header: header_doc.tex
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(dev = 'pdf')
+par(mar=c(3,3,2,1), mgp=c(2,.7,0), tck=-.01,las=1)
+```
+
+\begin{abstract}
+Hello abstract!
+\end{abstract}
+
+\section{A Section}
+
+Here is a section with some R code and a picture
+
+```{r cars}
+plot(1:10, 1:10)
+```
+
+\section{Another Section}
+
+
+Here is an equation:
+$$ \log(x) = y $$
+

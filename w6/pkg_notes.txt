@@ -1,0 +1,147 @@
+Based on http://r-pkgs.had.co.nz/
+
+PRELIMINARIES:
+
+Create a new package called climr which allows for:
+1) Loading of global, northern hemisphere, and southern hemisphere temperature data sets
+2) Fitting of models to said data
+3) Nice plots of the output
+
+The data will come from:
+http://data.giss.nasa.gov/gistemp/tabledata_v3/GLB.Ts+dSST.csv
+http://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv
+http://data.giss.nasa.gov/gistemp/tabledata_v3/SH.Ts+dSST.csv
+
+The package will have three functions:
+load_clim
+fit
+plot
+
+The latter two will be S3 methods based on the output of load_clim and fit respectively
+
+First steps are to go to RStudio and:
+
+File > New Project > New package
+
+Fill in the details as in the video
+
+Then go to the console window and run:
+install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
+and any other packages you need
+
+
+STEP 1: R code
+
+Go and fill in all the R code in the R folder for what you want the package to do
+
+As you are writing the package hit: Ctrl/Cmd + Shift + B to build and re-load
+Make sure you’ve set up the setting correctly in project options otherwise it doesn’t seem to wipe the workspace
+
+I usually put each function in a different file but some people (notably Hadley) do not recommend this
+
+STEP 2: DESCRIPTION file
+
+Load up the DESCRIPTION file
+- Fill in what the package does
+- Think about version numbers (major, minor, patch)
+- Use Authors@R to fill in the authors. Amazing list of roles: http://www.loc.gov/marc/relators/relaterm.html
+- Delete the maintainer field
+- Fill in description
+- Add in imports. Packages your package NEEDS to run. Note they will not be explicitly loaded
+- Add in suggests: if you have packages which might be nice for certain examples, etc. You need to embed these in if statements when you use them
+- The way to do the above is to use e.g. devtools::use_package("dplyr")
+- For my package I'm using readr, dplyr, magrittr, stats, ggplot2, tibble so I'm running the above for each of those.
+- In theory you should now go back through your functions and add in the package names in the right places.
+- Choose a license: see http://choosealicense.com/licenses/. I usually choose GPL>=2
+- Note that if you're using things like magrittr the above will break your package until you've run the documentation steps below!
+
+STEP 3: Documentation
+
+- This is very important if you want people to use your package
+- We'll use the roxygen2 package to add documentation directly into the function files. Common fields here include
+@param which lists the different arguments of your function
+@return which details what the function returns
+@seealso to link to other pages with \code{\link{fun_name}}
+@examples which shows the function in action
+There is code completion here so type @ to see the other fields
+- Call in library(roxygen2)
+- Workflow is:
+1) Go to each function in turn
+2) Click Code > Insert roxygen template
+3) Fill in all details
+4) Repeat for each function
+5) Type devtools::document()
+6) Hit CTRL/CMD-Shift-B to build and reload function, or just type devtools::document()
+7) Check your help files with ?fun_name
+8) Repeat the above until you're happy
+
+Finally, add in either:
+#' @importFrom pkg_name "fun_name_1" "fun_name_2"
+if you're importing specific functions from other packages, or
+#' @import pkg_name
+if you want to import everything from a package
+
+If you want to have a look at the NAMESPACE file, now is the time, but don't edit it
+
+We could also create a vignette now but we'll save for week 8
+
+STEP 5: Package testing
+
+Type
+use_testthat()
+
+Now:
+1) create .R files in the testthat directory (more on this below)
+2) Use cmd/ctrl-shift-T or devtools::test()
+
+Each .R file inside the testthat directory contains:
+- a context: just a setting for what this file is testing
+- a few test_that functions where the first argument is the end of the sentence 'test that ...'
+- inside this some functions which evaluate to true or false using:
+  - expect_equal (approximate equality) or expect_identical (exact equality)
+  - expect_match which matches a character vector against a regexp
+  - expect_output allows you to check the format of output
+  - expect_message, expect_warning, expect_error make sure that errors occur in the right place
+  - expect_is checks for class membership
+  - expect_true and expect_false work where the above aren't suitable
+
+See ?expect_error for even more
+
+There are a few clever functions for skipping certain tests in some situations.
+
+Within a testthat call you can use write other commands to make the test look neater
+
+If you then run devtools::test() (or the shortcut) you'll get a few dots on your screen according to each test, and any reports of fails
+
+STEP 6: Other bits
+
+Other useful things:
+- The NAMESPACE file. Don't touch this! Let devtools do the work for you
+- You can add a data directory but all files in it should ideally be .RData files as produced by save. You then should create something like data.r file with roxygen comments at the top so there are help files
+- Put raw data in a inst/ext-data folder. No need to document this. You can then access them with system.file("extdata", "file.csv", package = "climr"). In fact you can put pretty much anything you like in the inst folder. People usually put things like citation, instruction manuals, and all kinds of other stuff. I would generally recommend putting a citation file in inst and then using e.g. citation('climr')
+- Compiled code (C, Fortran) should go in an src folder. If you want to include Rcpp (which would be better) then use the Rstudio template. You can even use Roxygen2 to inline document Cpp files
+- At some point in the process devtools created a .Rbuildignore file which removes various files (e.g. the .Rproj) when it builds the package. You can add other files to it and various people online have their own template files you can borrow
+
+Finally you want to check and release your package. To do this run devtools::check() or cmd/ctrl-shift-E. When you do this first of all you will often find lots of errors/warnings/notes. You need to eliminate ALL OF THEM. This will take many hours. There's so much here that could possibly go wrong you will likely need to plenty of reading and Googling to identify all the possible problems.
+
+If you run this now for my climr package as given in the Blackbaord folder you'll see a load of notes e.g.
+fun_name: no visible binding for global variable var_name
+This is because we're using something called non-standard evaluation (or nse for short). It occurs when we use dplyr or ggplot (or similar) and we have variables as arguments that are to be found only within a data frame. R can't find them and so a note is generated. There are lots of terrible hacky solutions to this problem (see e.g. http://stackoverflow.com/questions/9439256/how-can-i-handle-r-cmd-check-no-visible-binding-for-global-variable-notes-when and many others).
+
+The current acceptable solution is to use: globalVariables so you put something like
+if(getRversion() >= "2.15.1") utils::globalVariables(c('DJF','Dec','J-D','Jan','SON','Year','month','pred','quarter','temp','x','year'))
+at the top of each appropriate function.
+
+The perhaps easier alternative is that most of the tidyverse now has standard evaluation versions. These are the same as the usual function names (mutate, summarise, etc) but have an underscore on the end. You then put the argument to the function in quotes. What a pain! I haven't done this here for simplicity but if you were to submit this to cran you'd have to go back and do it
+
+Finally, once you've got rid of all notes/warnings/errors build your package with build() and build_win() to make sure that it works on multiple platforms. Then submit your .tar.gz file to http://cran.r-project.org/submit.html and hope for the best!
+
+## EXERCISE
+
+Your job for this week is to design a package. You should come up with a name and a rough description for it, and a description of the R functions that will go in it. 
+
+The package can do anything you like: analyse data, produce graphs, perform some kind of fancy model, but it shouldn't have more than 5-6 functions. You don't have to 
+
+write any code! You should merely produce a max 3 page pdf document which gives your function name and a description of what it does, and a description of what each of 
+
+the functions do. In later weeks we'll start creating this package so make sure it's viable.

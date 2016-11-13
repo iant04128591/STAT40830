@@ -1,0 +1,65 @@
+---
+output: 
+  pdf_document:
+    citation_package: natbib
+    keep_tex: true
+    fig_caption: true
+    latex_engine: pdflatex
+    template: /home/ian/Documents/git/STAT40830/w6/svm-latex-ms.tex
+title: "R Package : _geegeer_"
+author:
+- name: Ian Towey
+  affiliation: STAT40830 - Advanced R (week 6  assignment)
+abstract: "This document provides an introduction to R package `geegeer`. `geegeer` contains a set of predictve model for horse racing. The main functions of the `geegeer` API are presented below. The models in package `geegeer` are based on the analysis available [here](http://www.ms.unimelb.edu.au/documents/thesis/AlexThesis.pdf)"
+keywords: "geegeer, horse racing"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+geometry: margin=1in
+fontfamily: mathpazo
+fontsize: 11pt
+# spacing: double
+biblio-style: apsr
+---
+
+# Introduction
+
+`geegeer` is a `R` package that implements various models to predict the probability that a given horse in a given race will win.
+The package scrapes racecard/result information off [sporting.com](http://www.sportinglife.com/racing).
+
+
+# API
+
+The public funtions in the package are:
+
+  * listRaces
+  
+  * listHorses
+  
+  * predictProbabilities 
+  
+  * compareModelVSp
+
+
+
+
+# listRaces - track date
+
+This function lists the races  
+
+# listHorses - raceId
+
+# predictRaceProbabilities - returns horse name / decimal odds
+
+# compareModelVSp - compares the predicted model probabilities v the offical sp for that a runner 
+
+#Remarks
+
+The package can be used to compare the probabilities from the various statistical models versus the offical SP and   
+
+<!--
+# References
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
+\setlength{\parskip}{8pt}
+\vspace*{-0.2in}
+\noindent
+-->
