@@ -1,0 +1,42 @@
+## EXERCISE
+
+1. Design a package. 
+----------------------------------------
+You should come up with a name and a rough description for it, and a description of the R functions that will go in it. 
+The package can do anything you like: analyse data, produce graphs, perform some kind of fancy model, but it shouldn't 
+have more than 5-6 functions. You don't have to write any code! You should merely produce a max 3 page pdf document which 
+gives your function name and a description of what it does, and a description of what each of the functions do. In later 
+weeks we'll start creating this package so make sure it's viable.
+
+2. Code package. 
+Write R code for your package
+
+3. Vignette. 
+Write a vignette to go with it
+
+4. Shiny integration
+Shiny app for your package (designed in week 6 and coded (at least partially in week 8))
+
+
+
+
+Week 11 notes
+This is project week. You should use this week to catch up on exercises you haven’t yet completed.
+
+By the end of week 13, you need to submit an R package in the form of a *.tar.gz file produced by devtools::build. It should be submitted to the Project assignment box on Blackboard.
+
+It should have:
+At least 4 substantial R functions
+ROxygen help documentation including examples for at least two of the functions
+A vignette which explains the use of the package in an informative way. See https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html for an example of a good vignette.
+A Shiny app which demonstrates some functionality of the package. 
+Hopefully some of the above you have already completed during the weekly exercises. In week 6 you should have designed the package, in week 8 written R code and drafted a vignette, and in week 9 designed/written a Shiny app.  
+
+I will mark the package by doing the following:
+Downloading the R package and running devtools::check on it. You will receive 5/5 for no errors/warnings/notes, with -2 for each error, and -1 for each note/warning.
+Reading the DESCRIPTION file. This should be informative and concise. Marked out of 5
+Installing the package and running the examples. Marked out of 5
+Running the Shiny app. Marked out of 5
+Reading the vignette and running the associated commands. Marked out of 10. 
+Total: 30 marks
+
