@@ -1,0 +1,53 @@
+Lecture 9 - Shiny!
+
+Resources:
+http://shiny.rstudio.com/
+http://shiny.rstudio.com/tutorial/ - pretty good tutorial
+http://shiny.rstudio.com/gallery/ - really useful gallery
+https://www.r-bloggers.com/supplementing-your-r-package-with-a-shiny-app-2/ - including shiny in an R package
+
+1) Go to File > New > Shiny Web App
+Talk through application
+(Also in app_1.R
+
+2) Talk through app_2.R
+
+3) Go to gallery and talk through
+Also read the tutorial
+Talking about forking from github
+
+4) Design a Shiny web app for climr
+
+- Sidebar contains:
+	- a picker for NH, SH, or Global.
+	- a picker for smoother type lm, loess, or spline
+	- a picker for data type, yearly, quarterly, monthly
+	- a picker for choice of time grid
+- Main panel contains plot of data
+
+5) Steps to include the Shiny app in a package
+
+a)
+library(devtools)
+use_package('shiny')
+b)
+Move your package directory into inst / shiny-examples / app
+Separate into ui.R and server.R (if not done already)
+c) Add an climr_shiny.R file in your R folder containing:
+climr_shiny = function() {
+  appDir = system.file("shiny-examples", 'app', package = 'climr')
+  if (appDir == "") {
+    stop("Could not find shiny directory in package. Try re-installing `climr`.", call. = FALSE)
+  }
+
+  shiny::runApp(appDir, display.mode = "normal")
+}
+Add in rOxygen documentation
+d) Check and build your package
+e) Run your Shiny example with
+climr_shiny()
+
+Homework:
+Design a Shiny app for your package (designed in week 6 and coded (at least partially in week 8))
+
+
