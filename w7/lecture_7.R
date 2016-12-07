@@ -48,7 +48,7 @@ library(dplyr)
 get_stamenmap(europe, zoom = 5) %>% ggmap(extent = 'device')
 
 # Don't like this style, use Google maps instead
-get_googlemap("Ireland", zoom = 7) %>% ggmap(extent = 'device')
+?get_googlemap("Ireland", zoom = 7) %>% ggmap(extent = 'device')
 # Can put in anything in the first argument, then just adjust the zoom
 get_googlemap("Kilimanjaro", zoom = 8, maptype = 'hybrid') %>% ggmap(extent = 'device')
 
@@ -217,13 +217,15 @@ violent_crimes = crime %>%
          29.73631 <= lat & lat <=  29.78400)
 
 
-??GeomRasterAnn
+GeomRasterAnn
 str(violent_crimes)
 # Create the area and get the map
 area = c(left = -95.39615, bottom = 29.73646, right = -95.34190, top = 29.78391)
 map = get_stamenmap(area, zoom = 14, maptype = "toner-lite")
 
-ggmap(map) + geom_point(data = violent_crimes, aes(x = lon, y = lat, colour = day))
+p = ggmap(map) + geom_point(data = violent_crimes, aes(x = lon, y = lat, colour = day, frame = day))
+gg_animate(p)
+
 # Adjust the geom_point call to add an animation for offense (and colour by offense).
 # Which of the offenses has the smallest number of points?
 
@@ -275,7 +277,7 @@ m1
 
 # Interactive maps
 my_map = Leaflet$new()
-my_map$setView(c(29.76, -95.36), zoom = 15)
+my_map$setView(c(29.76, -95.36), zoom = 7)
 for(i in 1:nrow(robberies)) {
   my_map$marker(c(robberies$lat[i], robberies$lon[i]),
                 bindPopup = paste("<p>", robberies$location[i], "</p>"))

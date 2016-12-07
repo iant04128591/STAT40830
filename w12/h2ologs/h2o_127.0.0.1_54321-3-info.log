@@ -1,0 +1,47 @@
+12-02 23:01:08.154 127.0.0.1:54321       13734  #r thread INFO: ----- H2O started  -----
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Build git branch: rel-turing
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Build git hash: 3b286dea7b719b6ef2c2f5f7728648f2440a1502
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Build git describe: jenkins-rel-turing-6
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Build project version: 3.10.0.6 (latest version: 3.10.1.1)
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Build age: 3 months and 6 days
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Built by: 'jenkins'
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Built on: '2016-08-26 11:15:18'
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Processed H2O arguments: [-name, sparkling-water-ian_-1491678177, -ga_opt_out, -log_level, INFO, -baseport, 54321, -ip, localhost, -log_dir, /home/ian/Documents/git/STAT40830/w12/h2ologs]
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Java availableProcessors: 8
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Java heap totalMemory: 976.5 MB
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Java heap maxMemory: 976.5 MB
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Java version: Java 1.8.0_65 (from Oracle Corporation)
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: JVM launch parameters: [-Xms1g, -Xmx1g]
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: OS version: Linux 4.4.0-43-generic (amd64)
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Machine physical memory: 7.71 GB
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: X-h2o-cluster-id: 1480719667364
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: User name: 'ian'
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Opted out of sending usage metrics.
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: IPv6 stack selected: false
+12-02 23:01:08.162 127.0.0.1:54321       13734  #r thread INFO: Network interface is down: name:docker0 (docker0)
+12-02 23:01:08.163 127.0.0.1:54321       13734  #r thread INFO: Possible IP Address: wlp2s0 (wlp2s0), fe80:0:0:0:7a31:c1ff:fed5:5d2%wlp2s0
+12-02 23:01:08.163 127.0.0.1:54321       13734  #r thread INFO: Possible IP Address: wlp2s0 (wlp2s0), 192.168.1.101
+12-02 23:01:08.163 127.0.0.1:54321       13734  #r thread INFO: Possible IP Address: lo (lo), 0:0:0:0:0:0:0:1%lo
+12-02 23:01:08.163 127.0.0.1:54321       13734  #r thread INFO: Possible IP Address: lo (lo), 127.0.0.1
+12-02 23:01:08.163 127.0.0.1:54321       13734  #r thread INFO: Selected H2O.CLOUD_MULTICAST_IF: name:lo (lo) doesn't support multicast
+12-02 23:01:08.172 127.0.0.1:54321       13734  #r thread INFO: Internal communication uses port: 54322
+12-02 23:01:08.172 127.0.0.1:54321       13734  #r thread INFO: Listening for HTTP and REST traffic on http://127.0.0.1:54321/
+12-02 23:01:08.189 127.0.0.1:54321       13734  #r thread INFO: H2O cloud name: 'sparkling-water-ian_-1491678177' on localhost/127.0.0.1:54321, discovery address /233.87.42.233:59735
+12-02 23:01:08.189 127.0.0.1:54321       13734  #r thread INFO: If you have trouble connecting, try SSH tunneling from your local machine (e.g., via port 55555):
+12-02 23:01:08.189 127.0.0.1:54321       13734  #r thread INFO:   1. Open a terminal and run 'ssh -L 55555:localhost:54321 ian@127.0.0.1'
+12-02 23:01:08.189 127.0.0.1:54321       13734  #r thread INFO:   2. Point your browser to http://localhost:55555
+12-02 23:01:08.189 127.0.0.1:54321       13734  #r thread INFO: Log dir: '/home/ian/Documents/git/STAT40830/w12/h2ologs'
+12-02 23:01:08.189 127.0.0.1:54321       13734  #r thread INFO: Cur dir: '/home/ian/Documents/git/STAT40830/w12'
+12-02 23:01:08.197 127.0.0.1:54321       13734  #r thread INFO: HDFS subsystem successfully initialized
+12-02 23:01:08.201 127.0.0.1:54321       13734  #r thread INFO: S3 subsystem successfully initialized
+12-02 23:01:08.201 127.0.0.1:54321       13734  #r thread INFO: Flow dir: '/home/ian/h2oflows'
+12-02 23:01:08.208 127.0.0.1:54321       13734  #r thread INFO: Cloud of size 1 formed [localhost/127.0.0.1:54321]
+12-02 23:01:08.223 127.0.0.1:54321       13734  #r thread INFO: Registered parsers: [GUESS, ARFF, XLS, SVMLight, AVRO, CSV]
+12-02 23:01:08.223 127.0.0.1:54321       13734  #r thread INFO: Registered 0 extensions in: 306mS
+12-02 23:01:08.526 127.0.0.1:54321       13734  #r thread INFO: Registered: 128 REST APIs in: 302mS
+12-02 23:01:08.526 127.0.0.1:54321       13734  #r thread INFO: 
+12-02 23:01:08.526 127.0.0.1:54321       13734  #r thread INFO: Open H2O Flow in your web browser: http://127.0.0.1:54321
+12-02 23:01:08.526 127.0.0.1:54321       13734  #r thread INFO: 
+12-02 23:01:11.411 127.0.0.1:54321       13734  #roup-2-2 INFO: Registered: 204 schemas in 248ms
+12-02 23:01:11.456 127.0.0.1:54321       13734  #4981-225 INFO: GET /, parms: {}
+12-02 23:01:11.466 127.0.0.1:54321       13734  #4981-226 INFO: GET /, parms: {}

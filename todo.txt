@@ -30,7 +30,8 @@ At least 4 substantial R functions
 ROxygen help documentation including examples for at least two of the functions
 A vignette which explains the use of the package in an informative way. See https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html for an example of a good vignette.
 A Shiny app which demonstrates some functionality of the package. 
-Hopefully some of the above you have already completed during the weekly exercises. In week 6 you should have designed the package, in week 8 written R code and drafted a vignette, and in week 9 designed/written a Shiny app.  
+Hopefully some of the above you have already completed during the weekly exercises. In week 6 you should have designed the package, in week 8 written R code and drafted a vignette, and in week 9 
+designed/written a Shiny app.  
 
 I will mark the package by doing the following:
 Downloading the R package and running devtools::check on it. You will receive 5/5 for no errors/warnings/notes, with -2 for each error, and -1 for each note/warning.
@@ -40,3 +41,32 @@ Running the Shiny app. Marked out of 5
 Reading the vignette and running the associated commands. Marked out of 10. 
 Total: 30 marks
 
+
+SM 
+	assignment
+
+
+--various assignments
+
+	-w12 notes
+	
+w1	:	*CORRECT*
+w2	:	1
+w3	:	2,3
+w4	:	3,5
+w5	:	3,4
+w6	:	*R package outline*	
+w7	:	-
+w8	:	*code R package*
+w9	:	-	
+w10 	: 	-
+w11	:`	*R package complete*
+w12	:	3	
+
+
+Saturday 
+	-	write package outline, earthquake mapper
+	-	review w6 on creating a package
+	-	w7 interactive plot
+	- 
+	 

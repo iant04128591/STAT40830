@@ -1,0 +1,56 @@
+---
+title: "R Package : quaker"
+author: "Ian Towey"
+date: "3 December 2016"
+output: pdf_document
+linkcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Description
+
+The document describes the R package **_quaker_**.
+
+The **_quaker_** API allows users to retrieve, analyse and visualize global seismic activity. The data used is available on the [Earthquake Hazards Program](http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php) sections of the USGS website. 
+
+
+***
+## quaker function list
+
+1. getSeismicData(timeFrame, minMagnitude)
+    + returns a [GeoJson](http://geojson.org/) formatted document of global seismic activity
+
+    |Name           |  Description            | Valid input    
+    ----------------|-------------------------|-------------------------------------
+    |  timeFrame    |  The time interval      | PAST_HOUR, PAST_DAY, PAST_WEEK, PAST_WEEK
+    |  minMagnitude |  The minimum magnitude  | all, 1.0, 2.5, 4.5
+    
+2. summaryStats(timeFrame, minMagnitude)
+    + Produce summary statistics
+
+    |Name           |  Description            | Valid input    
+    ----------------|-------------------------|-------------------------------------
+    |  timeFrame    |  The time interval      | PAST_HOUR, PAST_DAY, PAST_WEEK, PAST_WEEK
+    |  minMagnitude |  The minimum magnitude  | all, 1.0, 2.5, 4.5
+                          
+3. earthquakeRegression(timeFrame, minMagnitude)
+    + A simple regression model is computed of cumulative earthquake frequency by magnitude 
+
+    |Name           |  Description            | Valid input    
+    ----------------|-------------------------|-------------------------------------
+    |  timeFrame    |  The time interval      | PAST_HOUR, PAST_DAY, PAST_WEEK, PAST_WEEK
+    |  minMagnitude |  The minimum magnitude  | all, 1.0, 2.5, 4.5
+
+4. plotByLocation(timeFrame, minMagnitude)
+    + interactive geo-plot 
+    
+    |Name           |  Description                    | Valid input    
+    ----------------|---------------------------------|-----------------------------
+    |  timeFrame    |  The time interval              | PAST_HOUR, PAST_DAY, PAST_WEEK, PAST_WEEK
+    |  minMagnitude |  The minimum magnitude          | all, 1.0, 2.5, 4.5
+
+5. plotByAnimate(timeFrame, minMagnitude)
+    + interactive geo-plot , annimating the plot to plot the earthquakes by day

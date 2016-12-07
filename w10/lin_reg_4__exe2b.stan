@@ -18,7 +18,7 @@ transformed parameters {
 model {
   # In this version X is a matrix
   y ~ normal(fits, sigma);
-  alpha ~ uniform(0, 1);
+  alpha ~ uniform(0, 1.0);
   sigma ~ uniform(0, 0.9);
 }
 generated quantities {

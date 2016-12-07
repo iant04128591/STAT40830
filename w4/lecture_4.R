@@ -70,15 +70,19 @@ new_data = rnorm(1000) %>%
 ## EXERCISE 1
 
 # a) Which of the following will find the log of the square root of the sequence 1 to 10? (Tick all that apply)
-1:10 %>% sqrt %>% log(base = exp(1))
-1:10 %>% `^`(0.5) %>% log
-log(sqrt(1:10))
-sqrt(log(1:10))
+
 1:10 %>% log %>% sqrt
-1:10 %>% sqrt %>% log
+log(sqrt(1:10))           #**
+1:10 %>% sqrt %>% log     #**
+1:10 %>% `^`(0.5) %>% log #**
+sqrt(log(1:10))
+1:10 %>% sqrt %>% log(base = exp(1)) #**
+1:10 %>% `^`(0.5) %>% log #**
 
 # b) The function below to takes 1000 uniform random variables, converts them to normal using qnorm, then produces a histogram. Re-write it in magrittr format (for Blackboard marking purposes keep everything on one line and use spaces between %>% and =, etc)
 hist(qnorm(runif(1000)), breaks = 30)
+
+runif(1000) %>% qnorm %>% hist(breaks = 30)
 
 # magrittr: typical workflow --------------------------------------------
 
@@ -130,7 +134,7 @@ fun2 = function() {
 }
 system.time(replicate(1e7, fun1))
 system.time(replicate(1e7, fun2)) # Almost identical
-# You don't lose any speed by using magrittr
+# You don't lose any speed by using magrittr  
 
 ## Exercise 2
 
@@ -140,12 +144,31 @@ system.time(replicate(1e7, fun2)) # Almost identical
 # 3) aggregates to produce the median Petal.area across species
 # (Include spaces between %>%, =, *, ~, /, etc)
 
+iris %>% head
+iris %>% subset(Sepal.Width > 3) %>% head
+iris %>% subset(Sepal.Width > 3) %>% transform(Petal.area = pi * Petal.Length / 2 * Petal.Width / 2) %>% head
+iris %>% subset(Sepal.Width > 3) %>% within(., Petal.area <- pi * Petal.Length / 2 * Petal.Width / 2) %>% head
+iris %>% subset(Sepal.Width > 3) %>% with(., data.frame(Species = Species, Petal.area = pi * Petal.Length / 2 * Petal.Width / 2)) %>% head
+
+iris %>% subset(Sepal.Width > 3) %>% with(., data.frame(Species = Species, Petal.area = pi * Petal.Length / 2 * Petal.Width / 2)) %>% aggregate(Petal.area ~ Species, data = . , FUN = 'median') %>% head
+iris %>% 
+    subset(Sepal.Width > 3) %>% 
+    with(., data.frame(Species = Species, Petal.area = pi * Petal.Length / 2 * Petal.Width / 2)) %>% 
+    aggregate(Petal.area ~ Species, data = . , FUN = 'median') 
+iris %>%  subset(Sepal.Width > 3) %>%  within(., Petal.area <- pi * Petal.Length / 2 * Petal.Width / 2) %>% subset(., select = c(Species, Petal.area)) %>% aggregate(Petal.area ~ Species, data = .,  FUN = 'median') 
+iris %>%  subset(Sepal.Width > 3) %>%  within(., Petal.area <- pi * Petal.Length / 2 * Petal.Width / 2) %>% aggregate(Petal.area ~ Species, data = .,  FUN = 'median') 
+iris %>%  subset(Sepal.Width > 3) %>%  within(., Petal.area <- pi * Petal.Length / 2 * Petal.Width / 2) %>% subset(., select = c(Species, Petal.area)) %>% aggregate(Petal.area ~ Species, data = . ,  FUN = 'median') 
+
+##ans
+iris %>% subset(Sepal.Width > 3) %>% within(., Petal.area <- pi * Petal.Length / 2 * Petal.Width / 2) %>% aggregate(Petal.area ~ Species, data = ., FUN = 'median')
+#
+
 # Aliases -----------------------------------------------------------------
 
 # I can never remember what all the different aliases do and how they work so here's a much better list than the help file in ?multiply_by
 
 # First extract
-mtcars %>% extract(, 1) # Same as [ - here mtcars[,1]
+mtcars %>% ?extract(, 1) # Same as [ - here mtcars[,1]
 mtcars %>% '['(,1) # Exactly the same but less readable
 mtcars %>% extract('wt') # Or by name
 mtcars %>% extract(c('wt', 'am')) # Or multiple names
@@ -175,10 +198,27 @@ mtcars %>% extract(,1:2) %>%
 
 ## EXERCISE 3
 
+library(?magrittr)
 # Write magrittr code to find the following subsets in the mtcars data set
 # All cars with disp < 200 or wt > 3.3
+mtcars %>% subset(disp %>% `<`(200) | wt %>% `>`(3.3)) %>% head
+mtcars %>% subset(disp %>% `<`(200) | wt %>% `>`(3.3)) %>% dim
+mtcars %>% subset(disp %>% `<`(200) %>% `|`(wt %>% `>`(3.3))) %>% dim
+mtcars %>% subset(disp %>% is_less_than(200) %>% or(wt %>% is_greater_than(3.3))) %>% dim
+mtcars %>% subset(disp %>% is_less_than(200) %>% or(wt %>% is_greater_than(3.3))) %>% dim
 # All cars with gear greater than or equal to 4 and cylinders equal to 6
+mtcars %>% subset(gear %>% `>=`(4) & cyl %>% `==`(6)) %>% head
+mtcars %>% subset(gear %>% `>=`(4) & cyl %>% `==`(6)) 
+mtcars %>% subset(gear %>% `>=`(4) & cyl %>% `==`(6)) %>% dim 
+mtcars %>% subset(gear %>% `>=`(4) %>% `&`(cyl %>% `==`(6))) %>% dim 
+mtcars %>% subset(gear %>% is_weakly_greater_than(4) & cyl %>% equals(6)) 
+mtcars %>% subset(gear %>% is_weakly_greater_than(4) %>% and(cyl %>% equals(6))) %>% dim
 # All cars with mpg between 15 and 23 (non-inclusive), or wt between 2.5 and 3.6 (non-inclusive)
+mtcars %>% subset((mpg %>% `>`(15) & mpg %>% `<`(23)) | (wt %>% `>`(2.5) & wt %>% `<`(3.6)) ) %>% dim 
+mtcars %>% subset(mpg %>% `>`(15) %>% `&`(mpg %>% `<`(23) ) %>% `|`(wt %>% `>`(2.5) %>% `&`(wt %>% `<`(3.6)))) %>% dim 
+mtcars %>% subset(mpg %>% `>`(15) %>% and(mpg %>% `<`(23) ) %>% or(wt %>% `>`(2.5) %>% and(wt %>% `<`(3.6)))) %>% dim 
+mtcars %>% subset(mpg %>% is_greater_than(15) %>% and(mpg %>% is_less_than(23)) %>% or(wt %>% is_greater_than(2.5) %>% and(wt %>% is_less_than(3.6)))) %>% dim 
+mtcars %>% subset(mpg %>% is_greater_than(15) %>% and(mpg %>% is_less_than(23)) %>% or(wt %>% is_greater_than(2.5) %>% and(wt %>% is_less_than(3.6))))
 
 # Again using the Iris data set, I want to use the quantile and findInterval functions to place each observation in a decile according to its Petal.Length.
 # Here's how I would do it using standard R code
@@ -186,6 +226,8 @@ iris_pet_len_dec = quantile(iris$Petal.Length, probs = seq(0, 1, length = 11))
 class = findInterval(iris$Petal.Length, iris_pet_len_dec, all.inside = TRUE)
 table(class)
 # Write a magrittr version of this code
+
+iris$Petal.Length %>% findInterval(., quantile(., probs = seq(0, 1, length = 11)), all.inside = TRUE) %>% table
 
 # Other pipes -------------------------------------------------------------
 
@@ -298,11 +340,13 @@ med_mean(rnorm(10))
 # I want to create my own function that produces the mean, sd, and length for use in an aggregate call
 # Write a magrittr defined function to return the mean, sd, and length of a vector
 # It should work with
-myfun = . %>% {c(mean(.),sd(.),length(.))}
+myfun = . %>% {c(mean(., na.rm = TRUE),sd(., na.rm = TRUE),length(.))}
 
 myfun = . %>% {
-  list(m= mean(.), sd = sd(.), l=length(.)) 
-} %T>% set_colnames(c('mpg (mean)', 'mpg (sd)', 'mpg (length)'))
+  data.frame(m= mean(.), sd = sd(.), l=length(.)) 
+} 
+
+%T>% set_colnames(c('mpg (mean)', 'mpg (sd)', 'mpg (length)'))
 
 mtcars %>% aggregate(mpg ~ cyl, data = ., myfun) 
 mtcars %>% aggregate(mpg ~ cyl, data = ., myfun) %>% str
@@ -316,12 +360,13 @@ set_colnames(c('cyl','mpg'))
 c(1) %>% cbind(c(2)) %>% cbind(c(3)) %>% cbind(c(4)) 
 
 # Here is a pretty inelegant function that provides the negative log likelihood for a given vector assuming the data come from a N(0, 1) distribution
+dat = rnorm(10)
 nll = function(x) -1 * sum(log(dnorm(x)))
-nll(rnorm(10))
+nll(dat)
 # Re-write nll in magrittr format
 
 nll = . %>% dnorm %>% log %>% sum %>% '*'(-1)
 
-nll(rnorm(10))
+nll(dat)
 
 # End ---------------------------------------------------------------------

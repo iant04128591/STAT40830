@@ -86,6 +86,7 @@ system.time(replicate(n = 1e5, A %*% (B %*% y)))
 p = 20
 x_rep = matrix(rep(x, p+1), ncol = p+1, nrow = length(x))
 X = sweep(x_rep, 2, 0:p, '^')
+dim(X)
 X_g_rep = matrix(rep(x_g, p+1), ncol = p+1, nrow = length(x_g))
 X_g = sweep(X_g_rep, 2, 0:p, '^')
 #pred  = X_g %*% solve(t(X)%*%X, t(X)%*%y) # Oh dear
@@ -147,6 +148,9 @@ system.time(replicate(n = 1e4, sum(diag(t(X) %*% X)))) # Way faster
 # The non-obvious one
 system.time(replicate(n = 1e4, sum(X * X))) # Even faster again!
 
+
+
+sum(X * X)
 # The last one makes use of the clever linear algebra identity
 # tr( X%*%t(X) ) = sum_{ij} X_{ij}*X_{ij}
 
@@ -156,7 +160,7 @@ system.time(replicate(n = 1e4, sum(X * X))) # Even faster again!
 # For a vector x computing t(x)%*%x = x[1]*x[1] + x[2]*x[2] + ... + x[n]*x[n]
 # is n multiplications with (n-1) additions so 2n-1 flops. People usually just write 2n as the -1 doesn't really matter for big n
 
-# 1. For an n by m matrix X, and an m by 1 matrix y, how many flops is X%*%y?     n * m^2
+# 1. For an n by m matrix X, and an m by 1 matrix y, how many flops is X%*%y?     n+n*m-1
 # 2. For an n by m matrix X, how many operations is t(X) %*% X?                   m^2 * n^2
 # 3. If n is much bigger than m, which has fewer flops t(X)%*%X or X%*%t(X)       t(X)%*%X     
 # 4. How many flops is sum(X*X) in the fastest version of the trace calculation?  2*n^n -n^n
@@ -190,7 +194,7 @@ GP_ll = function(p) {
   ll = dmvnorm(y, Mu, Sigma, log = TRUE)
   return(-ll)
 }
-
+y
 # Try calculating it for a given set of values
 x = scale(motor$times)[,1]
 y = scale(motor$accel)[,1]
@@ -238,7 +242,7 @@ which.min(all_out$`-ll`)
 all_out[which.min(all_out$`-ll`),]
 
 # 2 What are the values of sig_sq, tau_sq and rho_sq respectively that minimise the log-likelihood (to 3 d.p. - separate answers with a space)?
-all_out[which.min(all_out$`-ll`),1:3]
+round(all_out[which.min(all_out$`-ll`),1:3],3)
 
 # 3 The below function finds the minimum value of tau_sq across all values of sig_sq and rho_sq
 # Fill in the missing values marked A and B
@@ -250,10 +254,14 @@ plot(tau_sq_grid, tau_sq_mins$x, type = 'l')
 
 # The general rule for optimising (i.e. minimising) a function f(theta) is:
 # 1) Guess at some initial values for theta
-# 2) Use as much information as you have about f to choose a new value theta^new for which f(theta^new) should be lower. This information might concern the first and second derivatives of f if available, or anything else to hand. Many optimisation algorithms only update one element of theta at a time, but with more information it's usually more efficient to update multiple elements
+# 2) Use as much information as you have about f to choose a new value theta^new for which f(theta^new) should be lower. 
+#This information might concern the first and second derivatives of f if available, or anything else to hand. 
+#Many optimisation algorithms only update one element of theta at a time, but with more information it's usually more efficient 
+#to update multiple elements
 # 3) If f(theta^new) is really similar to f(theta) then stop, otherwise repeat 2 again
 
-# Perhaps the simplest (or most intuitive) way of optimising is to use a Taylor expansion of f(theta) and cut off at either one or two derivatives. 
+# Perhaps the simplest (or most intuitive) way of optimising is to use a Taylor expansion of f(theta) and cut off at 
+#either one or two derivatives. 
 #If you cut off at 1 derivative then you are doing 'steepest descent' (sometimes called gradient descent), 
 #if you cut off at 2 you are doing Newton-Raphson
 
@@ -356,12 +364,39 @@ GP_ll2(answer_SANN$par)
 # In the previous exercise we created profile likelihoods by varying one parameter and optimising the other two over a grid of values. We're now in a position to write some code which, for every value on a grid for one parameter, optimises the remaining parameters.
 
 # Write some code (using optim or nlminb) which for the following grid:
-tau_sq_grid = seq(0.1, 2, length = 500)
+for(i in 1:grid_size) sig_ll[i] = GP_ll(c(0, 0, tau_sq_grid[i]))
+plot(sig_sq_grid, sig_ll, type = 'l') # Perhaps 5 isn't the best value?
 # a) optimises the values of sig_sq and tau_sq for every value on the grid
 # b) plots the tau_sq_grid values against the nagative log likelihood
 # Hint 1: you'll need to re-write the GP_ll2 (or GP_ll) function to hold the tau_sq values constant
 # Hint 2: use the <<- to globally assign the current value of tau_sq_grid
 # What's the value of tau_sq that provides the minimum value (to 3 d.p.)?
+
+
+GP_ll2_tmp = function(p) {
+  sig_sq = exp(p[1])
+  rho_sq = exp(p[2])
+  tau_sq = tau_sq_grid[cntr]
+  Mu = rep(0, length(x))
+  Sigma = sig_sq * exp( - rho_sq * outer(x, x, '-')^2 ) + tau_sq * diag(length(x))
+  ll = dmvnorm(y, Mu, Sigma, log = TRUE)
+  print(paste(cntr,tau_sq,-ll))
+  if(min_ll_prev > -ll){
+    min_ll_prev <<- -ll
+    min_tau_idx <<- cntr 
+  }
+  cntr <<- cntr + 1
+  return(-ll)
+}
+iters <-500
+min_tau_idx = -1
+min_ll_prev = Inf
+tau_sq_grid = seq(0.1, 2, length = iters)
+cntr <- 1
+answer_NR = nlminb(start = rep(0, 2), objective = GP_ll2_tmp)
+answer_NR
+GP_ll2_tmp(answer_NR$par)
+round(tau_sq_grid[min_tau_idx],3)
 
 # Generating random numbers -----------------------------------------------
 
@@ -469,7 +504,16 @@ hist(X)
 # This order should happen about one sixth of the time
 
 # For the Marsaglia sequence, approx how often does the above relationship occur? (Hint: use the ordering in the U data frame)
+U
 
+cntr <- 0
+for(i in 2:length(u)-1){
+  if(u[i-1] < u[i+1] && u[i+1] < u[i]){
+    cntr <- cntr + 1
+    print(paste(u[i-1], u[i+1], u[i]))
+  }
+}
+print(cntr/length(u))
 # Here's another RNG called an additive congruential generator
 # x[i] = (x[i-1] + x[i-2]) mod M
 # so we need two starting values to get this working
@@ -478,6 +522,19 @@ hist(X)
 # First check uniformity (using e.g. qqplot and the cloud plots)
 # Then check the ordering relationship. How often does the ordering relationship occur?
 
+M
+x <- rep(NA,n)
+x[1] <- 1
+x[2] <- 1
+for(i in 3:n){
+  x[i] = (x[i-1] + x[i-2]) %% M
+}
 
 
-
+cntr <- 0
+for(i in 2:length(x)-1){
+  if(x[i-1] < x[i+1] && x[i+1] < x[i]){
+    cntr <- cntr + 1    
+  }
+}
+print(cntr)

@@ -103,11 +103,15 @@ print(stan_run_lr_ml_3)
 # Quadratic: 
 # Cubic: 
 
+library(boot)
+head(motor)
 motor_data_lr_3 = list(
                      N = nrow(motor),
                      K = 3,
                      x = cbind(scale(motor$times)[,1],scale(motor$times)[,1]^2,scale(motor$times)[,1]^3),
                      y = scale(motor$accel)[,1])
+getwd()
+setwd("/home/ian/Documents/git/STAT40830/w10")
 
 stan_model_lr_3 = stan_model('./lin_reg_3.stan')
 
@@ -379,11 +383,10 @@ motor_data = list(N = nrow(motor),
                   y = scale(motor$accel)[, 1])
 
 # Set up model - look at code closely
-gp_model_bayes = stan_model('r_code/lecture_10_files/GP.stan')
+gp_model_bayes = stan_model('./GP.stan')
 
 # Sample from it (or run optimizing instead)
-gp_run_bayes = sampling(gp_model_bayes,
-                        data = motor_data)
+gp_run_bayes = sampling(gp_model_bayes,data = motor_data)
 
 # Plot output
 plot(gp_run_bayes) # Now have a intercept and slope for each
@@ -412,5 +415,8 @@ plot(x, y)
 lines(x_g, pred, col = 'blue') # Good fit
 
 ## EXERCISE 5
-# (A challenge and not assessed). See if you can create some stan code to put the GP model on the logit of the proportions in the bin_reg.stan model using just age as a covariate.
-# If you get stuck put a question in the discussion forum, or if you think you've done it, produce a plot of age (x-axis) against p-hat (y-axis), and start thinking about whether you want to do a PhD in data analytics!
+# (A challenge and not assessed). See if you can create some stan code to put the GP model on the 
+# logit of the proportions in the bin_reg.stan model using just age as a covariate.
+# If you get stuck put a question in the discussion forum, or if you think you've done 
+# it, produce a plot of age (x-axis) against p-hat (y-axis), and start thinking about 
+# whether you want to do a PhD in data analytics!

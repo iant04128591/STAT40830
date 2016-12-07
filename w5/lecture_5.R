@@ -75,7 +75,7 @@ flights %>% slice(1:2)
 
 # arrange
 # R is a pain to sort by multiple columns in a df. arrange makes this easier
-arrange(flights, sched_dep_time)
+?arrange(flights, sched_dep_time)
 arrange(flights, month, day, dest)
 
 # Use desc for decreasing
@@ -284,7 +284,7 @@ tb = read_csv("https://raw.githubusercontent.com/hadley/tidyr/master/vignettes/t
 # The column names are are mixture of sex (m/f) and age group (0-14, 5-14, etc)
 
 # First gather up all of these except iso2 and year
-tb2 = tb %>% gather(key = demographic,
+tb2 = tb %>% ?gather(key = demographic,
                     value = cases,
                     -iso2, -year,
                     na.rm = TRUE)
