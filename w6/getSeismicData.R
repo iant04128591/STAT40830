@@ -1,7 +1,7 @@
 
 # install.packages('jsonlite')
-# library(jsonlite)
-# library(magrittr)
+library(jsonlite)
+library(magrittr)
 
 #function getSeismicData
 #' Title

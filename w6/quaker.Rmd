@@ -28,8 +28,12 @@ The **_quaker_** API allows users to retrieve, analyse and visualize global seis
     |  timeFrame    |  The time interval      | PAST_HOUR, PAST_DAY, PAST_WEEK, PAST_WEEK
     |  minMagnitude |  The minimum magnitude  | all, 1.0, 2.5, 4.5
     
-2. summaryStats(timeFrame, minMagnitude)
-    + Produce summary statistics
+2. getSummaryInfo(timeFrame, minMagnitude)
+    + Returns summary information
+      * Description
+      * count of events in period
+      * dataframe of magnitude by day
+      * dataframe of magnitude by country
 
     |Name           |  Description            | Valid input    
     ----------------|-------------------------|-------------------------------------
